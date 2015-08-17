@@ -12,8 +12,19 @@
   <![endif]-->
   </head>
   <body>
-    <div class="well">
+    <div class="well col-sm-8 col-sm-offset-2 col-xs-12">
       <h1>MegaRoster!</h1>
+
+      <ol id="students" class="list-group">
+        <li class="list-group-item">Christopher Long</li>
+      </ol>
+
+      <form class="form-inline" id="new_student_form" role="form" action="index.html" method="post">
+        <label for="">
+          <input class="form-control" type="text" name="student_name" value=""></label>
+          <input class="btn btn-primary btn-sm" type="submit" name="add_student" value="Add Student">
+
+      </form>
 
     </div>
 
