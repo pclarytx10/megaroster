@@ -41,10 +41,10 @@ var MegaRoster = function() {
   this.addStudent = function(student_name) {
     //Push the student name into the students array
     self.students.push(student_name);
-    //Write existing list to local storage
-    self.save();
     //Add the student name to a new list item in the <ol>
     self.appendToList(student_name);
+    //Write existing list to local storage
+    self.save();
 
   };
 
@@ -52,7 +52,7 @@ var MegaRoster = function() {
     self.students = [];
     self.load();
 
-    $('button.delete').on('click', function(ev){
+    $(document).on('click', 'button.delete', function(ev) {
       //Remove item from the array
       //Remove item from the <ol>
       $(this).closest('li').remove();
@@ -71,8 +71,8 @@ var MegaRoster = function() {
       //Use the console to prove that the array has a new student
       //console.log(self.students);
 
-      $(this.student_name).val('');
-      $(this.student_name).focus();
+      $(this.student_name).val('')
+        .focus();
     });
   };
 
