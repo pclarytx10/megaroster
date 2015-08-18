@@ -27,8 +27,9 @@ var Student = function(){
     li.removeAttr('id')
       .attr('data-id',self.id)
       .addClass('student')
-      .prepend(self.name)
       .removeClass('hidden');
+
+    li.find('label').append(self.name);
 
     //Append studend name to <ol>
 

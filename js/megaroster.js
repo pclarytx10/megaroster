@@ -59,10 +59,28 @@ var MegaRoster = function() {
 
   };
 
+  this.createEditForm = function(ev) {
+      var li, edit_form, label;
+      li = $(this).closest('li');
+      label = li.find('label');
+
+      //Append a clone of the edit_form_template to the <li>
+      edit_form = $('#edit_form_template')
+        .clone()
+        .removeAttr('id')
+        .removeClass('hidden');
+
+      label.addClass('hidden');
+      li.find('.btn-group').addClass('hidden');
+      li.append(edit_form);
+    };
+
   this.init = function() {
     self.students = [];
     Student.counter = 0;
     self.load();
+
+    $(document).on('click', 'button.edit', self.createEditForm);
 
     $(document).on('click', 'button.delete', function(ev) {
       var li = $(this).closest('li');

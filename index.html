@@ -18,17 +18,29 @@
 
       <ol id="students" class="list-group">
         <li class="list-group-item hidden" id="list_item_template">
-          <button  class="btn btn-sm btn-danger delete">
-            <i class="fa fa-trash-o"></i>
-          </button>
+          <label></label>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-success edit">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-danger delete">
+              <i class="fa fa-trash-o"></i>
+            </button>
+          </div>
         </li>
       </ol>
 
-      <form class="form-inline" id="new_student_form" role="form" action="index.html" method="post">
+      <form class="form-inline" id="new_student_form" role="form">
         <label for="">
           <input class="form-control" type="text" name="student_name" value=""></label>
           <input class="btn btn-primary btn-sm" type="submit" name="add_student" value="Add Student">
 
+      </form>
+
+      <form role="form" class="form-inline hidden" id="edit_form_template">
+        <input class="form-control" type="text" name="student_name">
+        <input class="btn btn-sm btn-success" type="submit" value="Save">
+        <button class="btn btn-sm btn-default cancel" type="button">Cancel</button>
       </form>
 
     </div>
