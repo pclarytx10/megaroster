@@ -25,8 +25,16 @@ var MegaRoster = function() {
   };
 
   this.appendToList = function(student_name) {
+    //Grab the *template* list item from the page
+    var li = $('#list_item_template').clone();
+    li.removeAttr('id')
+      .addClass('student')
+      .prepend(student_name)
+      .removeClass('hidden');
+
     //Append studend name to <ol>
-    $('#students').append('<li class="list-group-item">' + student_name + '</li>');
+
+    $('#students').append(li);
   };
 
 
@@ -43,6 +51,16 @@ var MegaRoster = function() {
   this.init = function() {
     self.students = [];
     self.load();
+
+    $('button.delete').on('click', function(ev){
+      //Remove item from the array
+      //Remove item from the <ol>
+      $(this).closest('li').remove();
+
+      //Update localStorage
+
+    });
+
 
     $('#new_student_form').on('submit',function(ev){
       ev.preventDefault();
