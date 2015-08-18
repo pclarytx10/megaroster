@@ -14,9 +14,12 @@ var MegaRoster = function() {
   this.load = function() {
     try {
       //Read in local storage, write to page
-      self.students = JSON.parse(localStorage.students);
-      $.each(self.students, function(index, student_name) {
-        self.appendToList(student_name);
+      var student_data_objects = JSON.parse(localStorage.students);
+      $.each(student_data_objects, function(index, student_data) {
+        var student = new Student();
+        student.init(student_data);
+        student.appendToList();
+        self.students.push(student);
       });
     }
     catch(err) {
@@ -24,25 +27,33 @@ var MegaRoster = function() {
     }
   };
 
-  this.appendToList = function(student_name) {
-    //Grab the *template* list item from the page
-    var li = $('#list_item_template').clone();
-    li.removeAttr('id')
-      .addClass('student')
-      .prepend(student_name)
-      .removeClass('hidden');
-
-    //Append studend name to <ol>
-
-    $('#students').append(li);
-  };
+  // this.appendToList = function(student_name) {
+  //   //Grab the *template* list item from the page
+  //   var li = $('#list_item_template').clone();
+  //   li.removeAttr('id')
+  //     .addClass('student')
+  //     .prepend(student_name)
+  //     .removeClass('hidden');
+  //
+  //   //Append studend name to <ol>
+  //
+  //   $('#students').append(li);
+  // };
 
 
   this.addStudent = function(student_name) {
+    var student = new Student();
+    student.init({
+      name: student_name,
+      //id: id
+    });
+
     //Push the student name into the students array
-    self.students.push(student_name);
+    self.students.push(student);
+
     //Add the student name to a new list item in the <ol>
-    self.appendToList(student_name);
+    student.appendToList();
+
     //Write existing list to local storage
     self.save();
 
@@ -50,14 +61,27 @@ var MegaRoster = function() {
 
   this.init = function() {
     self.students = [];
+    Student.counter = 0;
     self.load();
 
     $(document).on('click', 'button.delete', function(ev) {
+      var li = $(this).closest('li');
       //Remove item from the array
+      var id = li.attr('data-id');
+
+
+      $.each(self.students, function(index, current_student) {
+        if (current_student.id.toString() === id.toString()) {
+          self.students.splice(index, 1);
+          return false;
+        }
+      });
+
       //Remove item from the <ol>
-      $(this).closest('li').remove();
+      li.remove();
 
       //Update localStorage
+      self.save();
 
     });
 
