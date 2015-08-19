@@ -59,6 +59,9 @@ var MegaRoster = function() {
       label.addClass('hidden');
       li.find('.btn-group').addClass('hidden');
       li.append(edit_form);
+      edit_form.find('input[name=student_name]').val(label.text())
+        .focus()
+        .select();
   };
 
   this.removeEditForm = function(ev) {
@@ -88,13 +91,15 @@ var MegaRoster = function() {
     //Change it's name
     student.name = this.student_name.value;
 
+    //Update label
+    $(form).siblings('label').text(student.name);
+
     //Apply allows you to specify what "this" is. We're calling the current value of this in the other function.
     self.removeEditForm.apply(form);
 
     //Update localStorage
     self.save();
 
-    self.load();
   }
 
   this.init = function() {
