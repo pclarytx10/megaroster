@@ -4,7 +4,6 @@ var Student = function(){
   self.getOrSetId = function(id) {
     if (!id) {
       id = Student.counter + 1;
-      Student.counter ++; //Need to fix this, need logic to ensure that the counter is the highest id #
     }
     self.incrementCounter(id);
     return id;

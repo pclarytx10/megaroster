@@ -27,20 +27,6 @@ var MegaRoster = function() {
     }
   };
 
-  // this.appendToList = function(student_name) {
-  //   //Grab the *template* list item from the page
-  //   var li = $('#list_item_template').clone();
-  //   li.removeAttr('id')
-  //     .addClass('student')
-  //     .prepend(student_name)
-  //     .removeClass('hidden');
-  //
-  //   //Append studend name to <ol>
-  //
-  //   $('#students').append(li);
-  // };
-
-
   this.addStudent = function(student_name) {
     var student = new Student();
     student.init({
@@ -73,7 +59,43 @@ var MegaRoster = function() {
       label.addClass('hidden');
       li.find('.btn-group').addClass('hidden');
       li.append(edit_form);
-    };
+  };
+
+  this.removeEditForm = function(ev) {
+    var li,edit_form, label;
+    li = $(this).closest('li');
+    label = li.find('label');
+
+    edit_form = $(this).closest('form');
+    edit_form.remove();
+
+    label.removeClass('hidden');
+    li.find('.btn-group').removeClass('hidden');
+  };
+
+  this.updateStudent = function(ev) {
+    ev.preventDefault();
+    var form = this;
+
+    //Change the name on the student object
+    //Grab the id of the updated student
+    id = $(this).closest('li')
+      .attr('data-id');
+
+    //Find the student record with that id
+    var student = Student.getStudentById(id);
+
+    //Change it's name
+    student.name = this.student_name.value;
+
+    //Apply allows you to specify what "this" is. We're calling the current value of this in the other function.
+    self.removeEditForm.apply(form);
+
+    //Update localStorage
+    self.save();
+
+    self.load();
+  }
 
   this.init = function() {
     self.students = [];
@@ -81,6 +103,8 @@ var MegaRoster = function() {
     self.load();
 
     $(document).on('click', 'button.edit', self.createEditForm);
+    $(document).on('click', 'button.cancel', self.removeEditForm);
+    $(document).on('submit', 'form.edit', self.updateStudent);
 
     $(document).on('click', 'button.delete', function(ev) {
       var li = $(this).closest('li');
